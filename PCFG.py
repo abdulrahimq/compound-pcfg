@@ -2,10 +2,7 @@
 
 import torch
 import torch.nn as nn
-import torch.nn.functional as F
 import numpy as np
-import itertools
-import random
   
 class PCFG(nn.Module):
   def __init__(self, nt_states, t_states):

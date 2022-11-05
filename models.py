@@ -1,9 +1,8 @@
 import torch
 from torch import nn
 import torch.nn.functional as F
-import numpy as np
 from PCFG import PCFG
-from random import shuffle
+
 
 class ResidualLayer(nn.Module):
   def __init__(self, in_dim = 100,
@@ -14,6 +13,7 @@ class ResidualLayer(nn.Module):
 
   def forward(self, x):
     return F.relu(self.lin2(F.relu(self.lin1(x)))) + x
+
 
 class CompPCFG(nn.Module):
   def __init__(self, vocab = 100,
@@ -60,8 +60,7 @@ class CompPCFG(nn.Module):
     return mean, logvar
 
   def kl(self, mean, logvar):
-    result =  -0.5 * (logvar - torch.pow(mean, 2)- torch.exp(logvar) + 1)
-    return result
+    return -0.5 * (logvar - torch.pow(mean, 2)- torch.exp(logvar) + 1)
 
   def forward(self, x, argmax=False, use_mean=False):
     #x : batch x n

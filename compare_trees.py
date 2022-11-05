@@ -1,20 +1,8 @@
 #!/usr/bin/env python3
-import sys
-import os
-
 import argparse
-import json
-import random
-import shutil
-import copy
-
 import torch
-from torch import cuda
-import torch.nn as nn
 import numpy as np
-import time
-from utils import *
-import re
+from utils import get_nonbinary_spans, get_stats
 
 parser = argparse.ArgumentParser()
 
@@ -23,6 +11,7 @@ parser.add_argument('--tree1', default='')
 parser.add_argument('--tree2', default='')
 parser.add_argument('--length_cutoff', default=150, type = int)
 
+
 def is_next_open_bracket(line, start_idx):
     for char in line[(start_idx + 1):]:
         if char == '(':
@@ -30,6 +19,7 @@ def is_next_open_bracket(line, start_idx):
         elif char == ')':
             return False
     raise IndexError('Bracket possibly not balanced, open bracket not followed by closed bracket')    
+
 
 def get_between_brackets(line, start_idx):
     output = []
